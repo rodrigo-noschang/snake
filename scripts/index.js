@@ -7,6 +7,7 @@ let tailXposition = headXposition;
 let tailYposition = tailXposition;
 let direction = 'right';
 let movementTimerId = ''; // Start and Stop game.
+let intervalTimer = 500; // The lower this value, the fastest the snake will move
 const boardMap = [];
 
 const directionsKeys = {
@@ -14,13 +15,6 @@ const directionsKeys = {
     ArrowLeft:  'left',
     ArrowDown:  'down',
     ArrowUp:    'up'
-}
-
-const backgroundCodes = {
-    'T': 'body',
-    'B': 'body',
-    'H': 'head',
-    '': ''
 }
 
 const createBoard = () => {
@@ -51,6 +45,8 @@ createBoard();
 placePlayer();
 
 const updateBoard = () => {
+    console.log('Veio');
+
     board.innerHTML = '';
 
     for (let i = 0; i < boardDimensions; i++) {
@@ -63,9 +59,9 @@ const updateBoard = () => {
             block.id = `${i}-${j}`;  
             block.innerText = boardMap[i][j];
             
-            if (cellContent === 'H') {
+            if (cellContent.includes('H')) {
                 block.classList.add('head');
-            } else if (cellContent === 'T' || cellContent === 'B') {
+            } else if (cellContent.includes('T') || cellContent.includes('B')) {
                 block.classList.add('body');
             }
             

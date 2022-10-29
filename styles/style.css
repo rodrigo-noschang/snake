@@ -24,3 +24,19 @@
 .start-stop-container {
     text-align: center;
 }
+
+.board-message {
+    width: 450px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.win-message {
+    color: green;
+    background-color: #bcfc5a;
+}
+
+.fail-message {
+    color: red;
+    background-color: #e89a9a;
+}

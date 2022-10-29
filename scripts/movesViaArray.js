@@ -1,56 +1,33 @@
 const checkKeyAndPlayerCoordinates = evt => {
-    // if (direction === 'right' && boardMap[headXposition][headYposition + 1] === '') movePlayer(headXposition, headYposition + 1);
-    // if (direction === 'left'  && boardMap[headXposition][headYposition - 1] === '') movePlayer(headXposition, headYposition - 1);
-    // if (direction === 'down'  && boardMap[headXposition + 1])                   movePlayer(headXposition + 1, headYposition);
-    // if (direction === 'up'    && boardMap[headXposition - 1])                   movePlayer(headXposition - 1, headYposition);
-    
-    if (evt.key === 'ArrowRight' && boardMap[headXposition][headYposition + 1] === '') movePlayer(headXposition, headYposition + 1);
-    if (evt.key === 'ArrowLeft'  && boardMap[headXposition][headYposition - 1] === '') movePlayer(headXposition, headYposition - 1);
-    if (evt.key === 'ArrowDown'  && boardMap[headXposition + 1]) {
-        if (boardMap[headXposition + 1][headYposition] === '') movePlayer(headXposition + 1, headYposition);
-    }
-    if (evt.key === 'ArrowUp'    && boardMap[headXposition - 1]){
-        if (boardMap[headXposition - 1][headYposition] === '') movePlayer(headXposition - 1, headYposition);
-    }
+    if (!isNextBlockAvailable(direction)) return ;
+
+    if (direction === 'right') movePlayer(headXposition, headYposition + 1);
+    if (direction === 'left')  movePlayer(headXposition, headYposition - 1);
+    if (direction === 'down')  movePlayer(headXposition + 1, headYposition);
+    if (direction === 'up')    movePlayer(headXposition - 1, headYposition);
 }
 
 const updateTail = (newXtailPosition, newYtailPosition) => {
     tailXposition = newXtailPosition;
     tailYposition = newYtailPosition;
-
-    boardMap[newXtailPosition][newYtailPosition] = 'T';
 }
 
 const findNewTail = () => {
+    const tailDirection = boardMap[tailXposition][tailYposition].split('-')[1];
     boardMap[tailXposition][tailYposition] = '';
-
-    const nextBodyPart = 'B';
-
-    if (boardMap[tailXposition + 1]) {
-        if (boardMap[tailXposition + 1][tailYposition] === nextBodyPart) {
-            updateTail(tailXposition + 1, tailYposition);
-            return;
-        }
+    
+    if (tailDirection === 'right') {
+        tailYposition += 1;
+    } else if (tailDirection === 'left') {
+        tailYposition -= 1;
+    } else if (tailDirection === 'down') {
+        tailXposition += 1;
+    } else if (tailDirection === 'up') {
+        tailXposition -= 1;
     }
 
-    if (boardMap[tailXposition - 1]) {
-        if (boardMap[tailXposition - 1][tailYposition] === nextBodyPart) {
-            updateTail(tailXposition - 1, tailYposition);
-            return;
-        }
-    }
-
-    if (boardMap[tailXposition][tailYposition + 1] === nextBodyPart) {
-        updateTail(tailXposition, tailYposition + 1);
-        return;
-    }
-
-    if (boardMap[tailXposition][tailYposition - 1] === nextBodyPart) {
-        updateTail(tailXposition, tailYposition - 1);
-        return;
-    }
+    boardMap[tailXposition][tailYposition] = boardMap[tailXposition][tailYposition].replace('B', 'T');
 }
-
 
 const movePlayer = (newheadXposition, newheadYposition) => {
     boardMap[newheadXposition][newheadYposition] = 'H';
@@ -58,7 +35,7 @@ const movePlayer = (newheadXposition, newheadYposition) => {
     if (playerSize === 1) {
         boardMap[headXposition][headYposition] = '';
     } else {
-        boardMap[headXposition][headYposition] = 'B';
+        boardMap[headXposition][headYposition] = `B-${direction}`;
         findNewTail();
     }
 
@@ -68,4 +45,25 @@ const movePlayer = (newheadXposition, newheadYposition) => {
     updateBoard();
 }
 
-document.addEventListener('keydown', checkKeyAndPlayerCoordinates);
+const isNextBlockAvailable = nextBlock => {
+    if (nextBlock === 'right' && boardMap[headXposition][headYposition + 1] === '') return true;
+    if (nextBlock === 'left'  && boardMap[headXposition][headYposition - 1] === '') return true;
+    if (nextBlock === 'down'  && boardMap[headXposition + 1]){
+        if (boardMap[headXposition + 1][headYposition] === '') return true; 
+    }
+    if (nextBlock === 'up'    && boardMap[headXposition - 1]){
+        if (boardMap[headXposition - 1][headYposition] === '') return true;
+    }
+
+    return false;
+}
+
+const changePlayerDirection = evt => {
+    const newDirection = directionsKeys[evt.key];
+    const isDirectionValid = isNextBlockAvailable(newDirection);
+
+    direction = isDirectionValid ? newDirection : direction;
+}
+
+document.addEventListener('keydown', changePlayerDirection);
+
