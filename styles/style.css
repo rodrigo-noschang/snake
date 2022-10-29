@@ -1,0 +1,26 @@
+.board-container {
+    max-width: 250px;
+    margin: 30px auto 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.block {
+    width: 25px;
+    height: 25px;
+    background-color: #F3F3F3;
+    text-align: center;
+    line-height: 25px;
+}
+
+.body {
+    background-color: greenyellow;
+}
+
+.head {
+    background-color: green;
+}
+
+.start-stop-container {
+    text-align: center;
+}
