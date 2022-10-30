@@ -17,6 +17,12 @@ const directionsKeys = {
     ArrowUp:    'up'
 }
 
+const generateRandomValue = () => {
+    const randomNumber = Math.floor(Math.random() * boardDimensions);
+    
+    return randomNumber;
+}
+
 const createBoard = () => {
     for (let i = 0; i < boardDimensions; i++) {
         boardMap.push([]);
@@ -26,7 +32,6 @@ const createBoard = () => {
             
             const block = document.createElement('div');
             block.classList.add('block');
-            block.innerText = boardMap[i][j];
             block.id = `${i}-${j}`;
 
             board.appendChild(block);
@@ -38,15 +43,12 @@ const placePlayer = () => {
     boardMap[headXposition][headYposition] = 'H';
     const chosenCell = document.getElementById(`${headXposition}-${headYposition}`);
     chosenCell.classList.add('head');
-    chosenCell.innerText = boardMap[headXposition][headYposition];
 }
 
 createBoard();
 placePlayer();
 
 const updateBoard = () => {
-    console.log('Veio');
-
     board.innerHTML = '';
 
     for (let i = 0; i < boardDimensions; i++) {
@@ -56,13 +58,14 @@ const updateBoard = () => {
             
             const block = document.createElement('div');
             block.classList.add('block');
-            block.id = `${i}-${j}`;  
-            block.innerText = boardMap[i][j];
+            block.id = `${i}-${j}`;
             
             if (cellContent.includes('H')) {
                 block.classList.add('head');
             } else if (cellContent.includes('T') || cellContent.includes('B')) {
                 block.classList.add('body');
+            } else if (cellContent === 'F') {
+                block.classList.add('fruit');
             }
             
             board.appendChild(block);

@@ -1,4 +1,4 @@
-const checkKeyAndPlayerCoordinates = evt => {
+const checkKeyAndPlayerCoordinates = () => {
     if (!isNextBlockAvailable(direction)) return ;
 
     if (direction === 'right') movePlayer(headXposition, headYposition + 1);
@@ -30,6 +30,7 @@ const findNewTail = () => {
 }
 
 const movePlayer = (newheadXposition, newheadYposition) => {
+    const IsNextCellAFruit = boardMap[newheadXposition][newheadYposition] === 'F';
     boardMap[newheadXposition][newheadYposition] = 'H';
 
     if (playerSize === 1) {
@@ -42,17 +43,21 @@ const movePlayer = (newheadXposition, newheadYposition) => {
     headXposition = newheadXposition;
     headYposition = newheadYposition;
     
+    if (IsNextCellAFruit) {
+        grow();
+        placeFruit();
+    }
     updateBoard();
 }
 
 const isNextBlockAvailable = nextBlock => {
-    if (nextBlock === 'right' && boardMap[headXposition][headYposition + 1] === '') return true;
-    if (nextBlock === 'left'  && boardMap[headXposition][headYposition - 1] === '') return true;
+    if (nextBlock === 'right' && (boardMap[headXposition][headYposition + 1] === '' || boardMap[headXposition][headYposition + 1] === 'F')) return true;
+    if (nextBlock === 'left'  && (boardMap[headXposition][headYposition - 1] === '' || boardMap[headXposition][headYposition - 1] === 'F')) return true;
     if (nextBlock === 'down'  && boardMap[headXposition + 1]){
-        if (boardMap[headXposition + 1][headYposition] === '') return true; 
+        if (boardMap[headXposition + 1][headYposition] === '' || boardMap[headXposition + 1][headYposition] === 'F') return true; 
     }
     if (nextBlock === 'up'    && boardMap[headXposition - 1]){
-        if (boardMap[headXposition - 1][headYposition] === '') return true;
+        if (boardMap[headXposition - 1][headYposition] === '' || boardMap[headXposition - 1][headYposition] === 'F') return true;
     }
 
     return false;

@@ -13,12 +13,16 @@
     line-height: 25px;
 }
 
+.head {
+    background-color: green;
+}
+
 .body {
     background-color: greenyellow;
 }
 
-.head {
-    background-color: green;
+.fruit {
+    background-color: #e3b45f;
 }
 
 .start-stop-container {
