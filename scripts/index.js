@@ -7,7 +7,7 @@ let tailXposition = headXposition;
 let tailYposition = tailXposition;
 let direction = 'right';
 let movementTimerId = ''; // Start and Stop game.
-let intervalTimer = 500; // The lower this value, the fastest the snake will move
+let intervalTimer = 300; // The lower this value, the fastest the snake will move
 const boardMap = [];
 
 const directionsKeys = {
@@ -15,6 +15,13 @@ const directionsKeys = {
     ArrowLeft:  'left',
     ArrowDown:  'down',
     ArrowUp:    'up'
+}
+
+const opositeDirection = {
+    right: 'left',
+    left: 'right',
+    down: 'up',
+    up: 'down'
 }
 
 const generateRandomValue = () => {
@@ -40,7 +47,7 @@ const createBoard = () => {
 }
 
 const placePlayer = () => {
-    boardMap[headXposition][headYposition] = 'H';
+    boardMap[headXposition][headYposition] = `H-${direction}`;
     const chosenCell = document.getElementById(`${headXposition}-${headYposition}`);
     chosenCell.classList.add('head');
 }

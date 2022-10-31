@@ -1,15 +1,10 @@
 const checkKeyAndPlayerCoordinates = () => {
-    if (!isNextBlockAvailable(direction)) return ;
+    if (!isNextBlockAvailable(direction, 'head')) return ;
 
     if (direction === 'right') movePlayer(headXposition, headYposition + 1);
     if (direction === 'left')  movePlayer(headXposition, headYposition - 1);
     if (direction === 'down')  movePlayer(headXposition + 1, headYposition);
     if (direction === 'up')    movePlayer(headXposition - 1, headYposition);
-}
-
-const updateTail = (newXtailPosition, newYtailPosition) => {
-    tailXposition = newXtailPosition;
-    tailYposition = newYtailPosition;
 }
 
 const findNewTail = () => {
@@ -25,13 +20,13 @@ const findNewTail = () => {
     } else if (tailDirection === 'up') {
         tailXposition -= 1;
     }
-
+    
     boardMap[tailXposition][tailYposition] = boardMap[tailXposition][tailYposition].replace('B', 'T');
 }
 
 const movePlayer = (newheadXposition, newheadYposition) => {
     const IsNextCellAFruit = boardMap[newheadXposition][newheadYposition] === 'F';
-    boardMap[newheadXposition][newheadYposition] = 'H';
+    boardMap[newheadXposition][newheadYposition] = `H-${direction}`;
 
     if (playerSize === 1) {
         boardMap[headXposition][headYposition] = '';
@@ -44,28 +39,63 @@ const movePlayer = (newheadXposition, newheadYposition) => {
     headYposition = newheadYposition;
     
     if (IsNextCellAFruit) {
-        grow();
+        growFromTail();
         placeFruit();
     }
     updateBoard();
 }
 
-const isNextBlockAvailable = nextBlock => {
-    if (nextBlock === 'right' && (boardMap[headXposition][headYposition + 1] === '' || boardMap[headXposition][headYposition + 1] === 'F')) return true;
-    if (nextBlock === 'left'  && (boardMap[headXposition][headYposition - 1] === '' || boardMap[headXposition][headYposition - 1] === 'F')) return true;
-    if (nextBlock === 'down'  && boardMap[headXposition + 1]){
-        if (boardMap[headXposition + 1][headYposition] === '' || boardMap[headXposition + 1][headYposition] === 'F') return true; 
+const isNextBlockAvailable = (nextBlock, endPosition) => {
+    const endXposition = endPosition === 'head' ?
+        headXposition :
+        tailXposition;
+
+    const endYposition = endPosition === 'head' ?
+        headYposition :
+        tailYposition;
+
+    if (nextBlock === 'right' && (boardMap[endXposition][endYposition + 1] === '' || boardMap[endXposition][endYposition + 1] === 'F')) return true;
+    if (nextBlock === 'left'  && (boardMap[endXposition][endYposition - 1] === '' || boardMap[endXposition][endYposition - 1] === 'F')) return true;
+    if (nextBlock === 'down'  && boardMap[endXposition + 1]){
+        if (boardMap[endXposition + 1][endYposition] === '' || boardMap[endXposition + 1][endYposition] === 'F') return true; 
     }
-    if (nextBlock === 'up'    && boardMap[headXposition - 1]){
-        if (boardMap[headXposition - 1][headYposition] === '' || boardMap[headXposition - 1][headYposition] === 'F') return true;
+    if (nextBlock === 'up'    && boardMap[endXposition - 1]){
+        if (boardMap[endXposition - 1][endYposition] === '' || boardMap[endXposition - 1][endYposition] === 'F') return true;
     }
 
     return false;
 }
 
+const findAvailableDirection = (end) => {
+    const endXposition = end === 'head' ? 
+        headXposition :
+        tailXposition;
+
+    const endYposition = end === 'head' ?
+        headYposition :
+        tailYposition;
+
+    if (boardMap[endXposition][endYposition + 1] === '' || boardMap[endXposition][endYposition + 1] === 'F') {
+        return 'right';
+    }
+    if (boardMap[endXposition][endYposition - 1] === '' || boardMap[endXposition][endYposition - 1] === 'F') {
+        return 'left';
+    }
+    if (boardMap[endXposition + 1]){
+        if (boardMap[endXposition + 1][endYposition] === '' || boardMap[endXposition + 1][endYposition] === 'F') {
+            return 'down'; 
+        }
+    }
+    if (boardMap[endXposition - 1]){
+        if (boardMap[endXposition - 1][endYposition] === '' || boardMap[endXposition - 1][endYposition] === 'F') {
+            return 'up';
+        }
+    }
+}
+
 const changePlayerDirection = evt => {
     const newDirection = directionsKeys[evt.key];
-    const isDirectionValid = isNextBlockAvailable(newDirection);
+    const isDirectionValid = isNextBlockAvailable(newDirection, 'head');
 
     direction = isDirectionValid ? newDirection : direction;
 }

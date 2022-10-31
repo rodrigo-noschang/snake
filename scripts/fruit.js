@@ -12,4 +12,4 @@ const placeFruit = () => {
     updateBoard();
 }
 
-placeFruit();
+// placeFruit(); 

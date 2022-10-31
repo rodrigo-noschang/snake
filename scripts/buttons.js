@@ -14,4 +14,4 @@ stop.addEventListener('click', () => {
     start.classList.remove('hidden');
 })
 
-growButton.addEventListener('click', grow)
+growButton.addEventListener('click', growFromTail)
