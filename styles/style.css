@@ -35,12 +35,57 @@
     text-align: center;
 }
 
-.win-message {
-    color: green;
-    background-color: #bcfc5a;
+.invisible {
+    visibility: hidden;
+    pointer-events: none;
 }
 
-.fail-message {
-    color: red;
-    background-color: #e89a9a;
+.end-game-modal::before {
+    content: '';
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #666;
+    opacity: .8;
+    z-index: 0;
+}
+
+.end-game-container {
+    background-color: #F3F3F3;
+    padding: 30px;
+    width: 90vw;
+    max-width: 450px;
+    height: 70vh;
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.end-game-message {
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.end-game-restart {
+    padding: 2px 30px;
+    border-radius: 5px;
+    background-color: #78c3b3;
+    cursor: pointer;
+}
+
+.end-game-restart:hover {
+    filter: brightness(1.1);
+    transition: .3s;
+}
+
+.end-game-restart:active {
+    filter: brightness(1.4);
 }

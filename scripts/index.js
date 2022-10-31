@@ -31,6 +31,8 @@ const generateRandomValue = () => {
 }
 
 const createBoard = () => {
+    board.innerHTML = '';
+
     for (let i = 0; i < boardDimensions; i++) {
         boardMap.push([]);
         
@@ -51,9 +53,6 @@ const placePlayer = () => {
     const chosenCell = document.getElementById(`${headXposition}-${headYposition}`);
     chosenCell.classList.add('head');
 }
-
-createBoard();
-placePlayer();
 
 const updateBoard = () => {
     board.innerHTML = '';
@@ -79,3 +78,6 @@ const updateBoard = () => {
         }
     }
 }
+
+createBoard();
+placePlayer();

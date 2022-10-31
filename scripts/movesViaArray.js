@@ -1,5 +1,8 @@
 const checkKeyAndPlayerCoordinates = () => {
-    if (!isNextBlockAvailable(direction, 'head')) return ;
+    if (!isNextBlockAvailable(direction, 'head')) {
+        endGame();
+        return ;
+    }
 
     if (direction === 'right') movePlayer(headXposition, headYposition + 1);
     if (direction === 'left')  movePlayer(headXposition, headYposition - 1);
@@ -39,7 +42,7 @@ const movePlayer = (newheadXposition, newheadYposition) => {
     headYposition = newheadYposition;
     
     if (IsNextCellAFruit) {
-        growFromTail();
+        grow();
         placeFruit();
     }
     updateBoard();
@@ -95,9 +98,16 @@ const findAvailableDirection = (end) => {
 
 const changePlayerDirection = evt => {
     const newDirection = directionsKeys[evt.key];
+    if (!newDirection) return;
+
+    const isNewDirectioOposite = opositeDirection[newDirection] === direction;
+    if (isNewDirectioOposite) return;
+
     const isDirectionValid = isNextBlockAvailable(newDirection, 'head');
 
-    direction = isDirectionValid ? newDirection : direction;
+    if (!isDirectionValid) endGame();
+
+    direction = newDirection;
 }
 
 document.addEventListener('keydown', changePlayerDirection);

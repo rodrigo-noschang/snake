@@ -1,6 +1,5 @@
 const start = document.querySelector('.start-game');
 const stop = document.querySelector('.stop-game');
-const growButton = document.querySelector('.grow');
 
 start.addEventListener('click', () => {
     movementTimerId = setInterval(checkKeyAndPlayerCoordinates, intervalTimer);
@@ -13,5 +12,3 @@ stop.addEventListener('click', () => {
     stop.classList.add('hidden');
     start.classList.remove('hidden');
 })
-
-growButton.addEventListener('click', growFromTail)
