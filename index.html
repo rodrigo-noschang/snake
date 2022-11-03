@@ -12,21 +12,24 @@
     <script defer src="./scripts/buttons.js"></script>
     <script defer src="./scripts/fruit.js"></script>
     <script defer src="./scripts/endGame.js"></script>
-    
+    <script src="https://kit.fontawesome.com/7c4c17b192.js" crossorigin="anonymous"></script>
     <title> Snake </title>
 </head>
-<body>
+<body class = 'page-container'>
     
     <div class="board-container"></div>
 
     <div class = 'start-stop-container'>
-        <button class = 'start-game'> Start </button>
-        <button class = 'stop-game hidden'> Stop </button>
+        <button class = 'action-button start-game'> Começar </button>
+        <button class = 'action-button stop-game hidden'> Pausar </button>
     </div>
 
-    <div class = 'end-game-modal invisible'>
+    <div class = 'end-game-modal'>
         <div class = 'end-game-container'>
-            <div class = 'end-game-message'> Perdeu! </div>
+            <div class = 'end-game-message'> 
+                Perdeu! 
+                <i class="fa-regular fa-face-sad-tear"></i>
+            </div>
             <button class = 'end-game-restart'> Reiniciar </button>
         </div>
     </div>

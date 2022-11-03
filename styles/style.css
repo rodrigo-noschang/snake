@@ -1,16 +1,46 @@
+.page-container {
+    background-image: url('../img/garden-bg-resized.jpg');
+    background-size: cover;
+    position: relative;
+    background-repeat: no-repeat;
+}
+
+.page-container::before {
+    content: '';
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: -30px;
+    left: 0;
+    display: block;
+    background-color: grey;
+    opacity: .4;
+    z-index: 1;
+}
+
 .board-container {
-    max-width: 250px;
+    box-sizing: content-box;
+    width: 520px;
+    border-radius: 5px;
+    padding: 5px;
     margin: 30px auto 20px;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap;  
+    position: relative;
+    z-index: 2;  
+    border: 2px solid #6c6a6a;
+    background-color: rgb(239, 239, 239, .45);
+    box-shadow: 0 0 13px 1px #959393;
 }
 
 .block {
-    width: 25px;
-    height: 25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
     background-color: #F3F3F3;
     text-align: center;
-    line-height: 25px;
+    border: 1px solid #888;
+    margin: 1px;
 }
 
 .head {
@@ -27,6 +57,25 @@
 
 .start-stop-container {
     text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.action-button {
+    font-size: 22px;
+    padding: 4px 45px;
+    border: none;
+    background-image: linear-gradient(to right, #a9bb48, #cbbc35);
+    color: #4f2e00;
+}
+
+.action-button:hover {
+    cursor: pointer;
+    color: #9b600d;
+} 
+
+.action-button:active {
+    filter: brightness(1.1);
 }
 
 .board-message {
@@ -49,11 +98,11 @@
     left: 0;
     background-color: #666;
     opacity: .8;
-    z-index: 0;
+    z-index: 3;
 }
 
 .end-game-container {
-    background-color: #F3F3F3;
+    background-image: linear-gradient(to top, #a9bb48, #cbbc35);
     padding: 30px;
     width: 90vw;
     max-width: 450px;
@@ -67,6 +116,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    z-index: 4;
 }
 
 .end-game-message {
@@ -77,8 +127,9 @@
 .end-game-restart {
     padding: 2px 30px;
     border-radius: 5px;
-    background-color: #78c3b3;
+    background-color: #b2dd26;
     cursor: pointer;
+    font-size: 18px;
 }
 
 .end-game-restart:hover {
